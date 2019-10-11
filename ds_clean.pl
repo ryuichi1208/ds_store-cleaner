@@ -8,6 +8,8 @@ use Data::Dumper;
 use File::Find;
 use File::stat;
 
+my $TIMEOUT = $ENV{TIMEOVER} || 300;
+
 sub print_usage {
     print "Usage: $0 [Directory]";
     exit(1);
@@ -28,7 +30,7 @@ sub get_dir_and_unlink {
         next if( $file =~ /^\.{1,2}$/ );
 
         if (-d "$dir/$file") {
-            get_dir("$dir/$file");
+            get_dir_and_unlink("$dir/$file");
         }
         elsif (-f "$dir/$file" && "$dir/$file" =~ /.ds_store/) {
             print "$dir/$file\n";
@@ -56,7 +58,11 @@ sub main {
         print_usage;
     }
 
+    print localtime, " : START\n";
     get_dir_and_unlink($directory_to_be_deleted);
+    print localtime, " : END\n";
 }
 
 main(@ARGV)
+
+__END__
