@@ -32,7 +32,7 @@ sub get_dir_and_unlink {
         if (-d "$dir/$file") {
             get_dir_and_unlink("$dir/$file");
         }
-        elsif (-f "$dir/$file" && "$dir/$file" =~ /.ds_store/) {
+        elsif (-f "$dir/$file" && "$dir/$file" =~ /.DS_store/) {
             print "$dir/$file\n";
             push(@dot_list, "$dir/$file");
         }
