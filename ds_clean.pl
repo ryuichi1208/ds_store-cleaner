@@ -8,6 +8,11 @@ use Data::Dumper;
 use File::Find;
 use File::stat;
 
+sub print_usage {
+    print "Usage: $0 [Directory]";
+    exit(1);
+}
+
 sub get_dir_and_unlink {
     my $dir = shift;
     my @list = ();
@@ -43,8 +48,12 @@ sub main {
     my @argv = @_;
     my $directory_to_be_deleted = ".";
 
+
     if ($argv[0]) {
         $directory_to_be_deleted = $argv[0];
+        stat($directory_to_be_deleted) or die $!;
+    } elsif (@argv >= 2) {
+        print_usage;
     }
 
     get_dir_and_unlink($directory_to_be_deleted);
